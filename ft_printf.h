@@ -21,6 +21,7 @@ int	ft_printf(char *format, ...);
 
 int mod(long long int a);
 int	ft_atoi(const char *a);
+char	*ft_strnstr(const char *s1, const char *s2, size_t n);
 int	dow(int n);
 char	*ft_strsub(char const *s, unsigned int start, size_t len);
 int ft_print_s(char *str, t_param *p);

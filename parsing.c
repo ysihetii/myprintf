@@ -71,7 +71,7 @@ int		ft_rec(char *format, char **arr, int n, char **this)
 		j = 0;
 		while (j < n)
 		{
-			if (strnstr(&(format[i]), arr[j], strlen(arr[j])))
+			if (ft_strnstr(&(format[i]), arr[j], strlen(arr[j])))
 			{
 				*this = arr[j];
 				return (&(format[i]) - format);
