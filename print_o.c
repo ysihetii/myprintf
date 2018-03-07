@@ -134,7 +134,7 @@ int ft_print_o(long long n, t_param *p)
 		chislo = to_o0xl(n);
 	else
 		chislo = to_o0x(n);
-	if (n == 0 && p->precision == 0)
+	if (n == 0 /* && p->precision == 0 */)
 	{
 		free(chislo);
 		chislo = ft_strnew(0);
