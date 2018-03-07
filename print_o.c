@@ -138,6 +138,7 @@ int ft_print_o(long long n, t_param *p)
 	{
 		free(chislo);
 		chislo = ft_strnew(0);
+		p->flag[3] = '#';
 	}
 	if (p->precision > (int)strlen(chislo))
 		chislo = ft_opr(&chislo, p->precision);
