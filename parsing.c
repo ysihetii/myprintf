@@ -152,7 +152,7 @@ int	ft_printf(char *format, ...)
 			if (!strcmp(p->type, "p"))
 			{
 				p->flag[3] = '#';
-				res += ft_print_p(va_arg(ap, long long),p);
+				res += ft_print_p(va_arg(ap,unsigned long long),p);
 			}
 			if (!strcmp(p->type, "x") || !strcmp(p->type, "X"))
 			{

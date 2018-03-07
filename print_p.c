@@ -20,13 +20,13 @@ int	dow_p0x(unsigned long long n)
 }
 
 char xp[16] ={'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
-char *to_p0xl(long long n)
+char *to_p0xl(unsigned long long n)
 {
 	int len;
 	uintmax_t nn = 1844674407370955161;
 	char *res;
 
-	nn = (n < 0) ? nn * 10 + 5 + n + 1 : n;
+	nn = n;
 	//printf("\nnn=%lli\n", nn);
 	len = dow_p0x(n);
 	//res = (char*)malloc(len + 1);
@@ -40,27 +40,7 @@ char *to_p0xl(long long n)
 	}
 	return (res);
 }
-char *to_p0x(int n)
-{
-	int len;
-	unsigned int nn;
-	char *res;
 
-	nn = (n < 0) ? 4294967295 + n + 1 : n;
-	//printf("\nnn=%u\n", nn);
-	len = dow_p0x(nn);
-	//printf("\ndow=%i\n", len);
-	//res = (char*)malloc(len + 1);
-	//res[len + 1] = '\0';
-	res = ft_strnew(len);
-	while (len > 0)
-	{
-		res[len - 1] = xp[nn % 16];
-		nn /= 16;
-		len--;
-	}
-	return (res);
-}
 char *ft_ppr(char **str, int precision)
 {
 	int len;
@@ -93,13 +73,13 @@ int pr_ppx(char *str, t_param *p, int len, char* x)
 	if (len >= p->width)
 	{
 		if (p->flag[3])
-			res += write(1, x, 4);
+			res += write(1, x, 2);
 		res += write(1, str, len);
 	}
 	else if (p->flag[1])
 	{
 		if (p->flag[3])
-			res += write(1, x, 4);
+			res += write(1, x, 2);
 		res += write(1, str, len);
 		while (p->width - res > 0)
 			res += write(1, " ", 1);
@@ -107,7 +87,7 @@ int pr_ppx(char *str, t_param *p, int len, char* x)
 	else if (p->flag[2])
 	{
 		if (p->flag[3])
-			res += write(1, x, 4);
+			res += write(1, x, 2);
 		while (p->width - res - len > 0)
 			res += write(1, "0", 1);
 		res += write(1, str, len);
@@ -117,22 +97,19 @@ int pr_ppx(char *str, t_param *p, int len, char* x)
 		while (p->width - res - len - 4 * (int)(p->flag[3] == '#')> 0)
 			res += write(1, " ", 1);
 		if (p->flag[3])
-			res += write(1, x, 4);
+			res += write(1, x, 2);
 		res += write(1, str, len);
 	}
 	return (res);
 }
 
-int ft_print_p(long long n, t_param *p)
+int ft_print_p(unsigned long long n, t_param *p)
 {
 	char *chislo;
 	int len;
-	char *x = "0x10";
+	char *x = "0x";
 
-	if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j"))
-		chislo = to_p0xl(n);
-	else
-		chislo = to_p0x(n);
+	chislo = to_p0xl(n);
 	if (n == 0)
 		p->flag[3] = 0;
 	if (n == 0 && p->precision == 0)
