@@ -110,8 +110,7 @@ int ft_print_p(unsigned long long n, t_param *p)
 	char *x = "0x";
 
 	chislo = to_p0xl(n);
-	if (n == 0)
-		p->flag[3] = 0;
+
 	if (n == 0 && p->precision == 0)
 	{
 		free(chislo);
