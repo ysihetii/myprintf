@@ -163,13 +163,6 @@ int	ft_printf(char *format, ...)
 				else 
 					res += ft_print_o(va_arg(ap, int),p);
 			}
-			if (!strcmp(p->type, "d") || !strcmp(p->type, "i"))
-			{
-				if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j") || !strcmp(p->modificator, "z"))
-					res += ft_print_i(va_arg(ap, long long),p);
-				else 
-					res += ft_print_i(va_arg(ap, int),p);
-			}
 			if (!strcmp(p->type, "u") || !strcmp(p->type, "U"))
 			{
 				if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j") || !strcmp(p->modificator, "z") || !strcmp(p->type, "U"))
@@ -177,6 +170,19 @@ int	ft_printf(char *format, ...)
 				else 
 					res += ft_print_u(va_arg(ap, unsigned int),p);
 			}
+			else if (!strcmp(p->type, "d") || !strcmp(p->type, "i"))
+			{
+				if (!strcmp(p->modificator, "z"))
+				{
+					p->modificator = "l";
+					res += ft_print_u(va_arg(ap, unsigned long long),p);
+				}
+				else if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j"))
+					res += ft_print_i(va_arg(ap, long long),p);
+				else 
+					res += ft_print_i(va_arg(ap, int),p);
+			}
+		
 			//ft_print_param(p);
 			//ft_print
 		}

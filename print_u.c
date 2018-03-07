@@ -88,7 +88,7 @@ char *ft_upr(char **str, int precision)
 int pr_ux(char *str, t_param *p, int len, char* x)
 {
 	int res;
-
+//printf("\ntfcvghjbhjkgnbjkgbuhj\n");
 	res = 0;
 	if (len >= p->width)
 	{
@@ -148,6 +148,5 @@ int ft_print_u(unsigned long long n, t_param *p)
 	if (p->precision > (int)strlen(chislo))
 		chislo = ft_upr(&chislo, p->precision);
 	len = strlen(chislo);
-
 	return (pr_ux(chislo, p, len, x));
 }
