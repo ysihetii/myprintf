@@ -177,7 +177,7 @@ int	ft_printf(char *format, ...)
 					p->modificator = "l";
 					res += ft_print_u(va_arg(ap, unsigned long long),p);
 				}
-				else if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j"))
+				else if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j") || !strcmp(p->modificator, "z"))
 					res += ft_print_i(va_arg(ap, long long),p);
 				else 
 					res += ft_print_i(va_arg(ap, int),p);

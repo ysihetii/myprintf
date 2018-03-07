@@ -128,7 +128,7 @@ int ft_print_u(unsigned long long n, t_param *p)
 	char *chislo;
 	int len;
 	char *x = strcmp(p->type, "X") ? "0x" : "0X";
-	if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j")|| !strcmp(p->type, "U"))
+	if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j")|| !strcmp(p->type, "U") || !strcmp(p->modificator, "z"))
 		chislo = to_u0xl(n);
 	else if (!strcmp(p->modificator, "h"))
 	{
