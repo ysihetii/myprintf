@@ -145,6 +145,8 @@ int	ft_printf(char *format, ...)
 			format += is_valid;
 			if (!strcmp(p->type, "s"))
 				res += ft_print_s(va_arg(ap, char*),p);
+			if (!strcmp(p->type, "c") || !strcmp(p->type, "C"))
+				res += ft_print_c(va_arg(ap, int),p);
 			if (!strcmp(p->type, "%"))
 				res += ft_print_pr("%", p);
 			if (!strcmp(p->type, "x") || !strcmp(p->type, "X"))
