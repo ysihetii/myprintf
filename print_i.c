@@ -144,7 +144,7 @@ int ft_print_i(long long n, t_param *p)
 		x = (signed char)n < 0 ? "-" : x;
 	//printf("n=%lli\n", n);
 	//printf("\nx=%ss\n", x);
-	if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j"))
+	if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j") || !strcmp(p->type, "D"))
 		{
 			chislo = to_i0xl(n);
 			x = n < (long long)0 ? "-" : x;

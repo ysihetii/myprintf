@@ -124,7 +124,8 @@ int ft_work_with_param(char *str, t_param *p)
 int	ft_printf(char *format, ...)
 {
 	va_list ap;
-	static int res;
+	int res;
+	res = 0;
 	t_param *p = (t_param*)malloc(sizeof(t_param));;
 	int is_valid = 1;
 	
@@ -175,14 +176,14 @@ int	ft_printf(char *format, ...)
 				else 
 					res += ft_print_u(va_arg(ap, unsigned int),p);
 			}
-			else if (!strcmp(p->type, "d") || !strcmp(p->type, "i"))
+			else if (!strcmp(p->type, "d") || !strcmp(p->type, "i") || !strcmp(p->type, "D"))
 			{
 				if (!strcmp(p->modificator, "z"))
 				{
 					p->modificator = "l";
 					res += ft_print_u(va_arg(ap, unsigned long long),p);
 				}
-				else if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j") || !strcmp(p->modificator, "z"))
+				else if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j") || !strcmp(p->modificator, "z") || !strcmp(p->type, "D"))
 					res += ft_print_i(va_arg(ap, long long),p);
 				else 
 					res += ft_print_i(va_arg(ap, int),p);
