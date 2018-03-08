@@ -7,7 +7,7 @@
 #include <stdarg.h>
 
 char *FLAGS="+-0# ";
-char *TYPES[TYPES_NUM] = {"i", "s",  "S", "d", "D", "p", "o", "O", "u", "U", "x", "X", "c", "C", "%"};
+char *TYPES[TYPES_NUM] = {"i", "s",  "S", "d", "D", "p", "o", "O", "u", "U", "x", "X", "c", "C", "%", "*","$", "L", "'", "n"};
 char *MODIFICATORS[MODIFICATORS_NUM] = {"hh", "h", "ll", "l", "j", "z"};
 
 
@@ -138,7 +138,8 @@ int	ft_printf(char *format, ...)
 
 			is_valid = ft_rec(format, TYPES, TYPES_NUM, &(p->type));
 
-			
+			if (!strcmp(p->type, "*") || !strcmp(p->type, "'") || !strcmp(p->type, "$") || !strcmp(p->type, "L") || !strcmp(p->type, "n"))
+				return (-1);
 			if (is_valid < 0)
 				return (-1);
 			
