@@ -58,6 +58,11 @@ void ft_print_param(t_param *p)
 	printf("type=%s\n", p->type);
 	printf("-------------------------\n");
 }
+int not_alph(char c)
+{
+	char *alph ="0123456789. +-#sSpdDioOuUxXcChljz%";
+	return ((int)strchr(alph, c));
+}
 
 int		ft_rec(char *format, char **arr, int n, char **this)
 {
@@ -68,6 +73,8 @@ int		ft_rec(char *format, char **arr, int n, char **this)
 	i = *format == '%' ? 1 : 0;
 	while(format[i])
 	{
+		if (!not_alph(format[i]))
+			return (-3);
 		j = 0;
 		while (j < n)
 		{
@@ -83,7 +90,7 @@ int		ft_rec(char *format, char **arr, int n, char **this)
 		else
 			i++;
 	}
-	return (0);
+	return (-2);
 }
 
 int ft_work_with_param(char *str, t_param *p)
@@ -126,6 +133,7 @@ int	ft_printf(char *format, ...)
 	va_list ap;
 	int res;
 	res = 0;
+
 	t_param *p = (t_param*)malloc(sizeof(t_param));;
 	int is_valid = 1;
 	
@@ -137,7 +145,17 @@ int	ft_printf(char *format, ...)
 			p = ft_new_p(p);
 
 			is_valid = ft_rec(format, TYPES, TYPES_NUM, &(p->type));
-
+			//rintf ("\nis=%i\n", is_valid);
+			if (is_valid < 0)
+			{
+				//printf("l");
+				//printf ("\ni=%i", not_alph(*format));
+				while (not_alph(*format) && *format)
+				{
+					format++;
+				}
+				continue ;
+			}
 			if (!strcmp(p->type, "*") || !strcmp(p->type, "'") || !strcmp(p->type, "$") || !strcmp(p->type, "L") || !strcmp(p->type, "n"))
 				return (-1);
 			if (is_valid < 0)
@@ -145,8 +163,15 @@ int	ft_printf(char *format, ...)
 			
 			ft_work_with_param(ft_strsub(format, 1, is_valid - 1), p);
 			format += is_valid;
-			if (!strcmp(p->type, "s"))
-				res += ft_print_s(va_arg(ap, char*),p);
+			if (!strcmp(p->type, "S"))
+				res += ft_print_sS(va_arg(ap, wchar_t*),p);
+			 else if (!strcmp(p->type, "s"))
+			 {
+			 	if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j"))
+			 		res += ft_print_sS(va_arg(ap, wchar_t*),p);
+			 	else
+					res += ft_print_s(va_arg(ap, char*),p);
+			}
 			if (!strcmp(p->type, "c") || !strcmp(p->type, "C"))
 				res += ft_print_c(va_arg(ap, int),p);
 			if (!strcmp(p->type, "%"))
@@ -158,14 +183,14 @@ int	ft_printf(char *format, ...)
 			}
 			if (!strcmp(p->type, "x") || !strcmp(p->type, "X"))
 			{
-				if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j"))
+				if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j") || !strcmp(p->modificator, "z"))
 					res += ft_print_x(va_arg(ap, long long),p);
 				else 
 					res += ft_print_x(va_arg(ap, int),p);
 			}
-			if (!strcmp(p->type, "o"))
+			if (!strcmp(p->type, "o") || !strcmp(p->type, "O"))
 			{
-				if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j"))
+				if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j") || !strcmp(p->type, "O") || !strcmp(p->modificator, "z"))
 					res += ft_print_o(va_arg(ap, long long),p);
 				else 
 					res += ft_print_o(va_arg(ap, int),p);

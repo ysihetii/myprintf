@@ -18,7 +18,7 @@ NAME=libftprintf.a
 
 CUSTOM_FT=parsing.o
 
-OBJ_PART1=print_s.o print_i.o ft_atoi.o ox.o print_o.o print_u.o print_c.o print_p.o
+OBJ_PART1=print_s.o print_i.o ft_atoi.o ox.o print_o.o print_u.o print_c.o print_p.o print_Ss.o
 
 
 
@@ -53,6 +53,8 @@ print_c.o: print_c.c
 	$(CC) print_c.c
 print_p.o: print_p.c
 	$(CC) print_p.c
+print_Ss.o: print_Ss.c
+	$(CC) print_Ss.c
 
 clean:
 	rm -rf $(OBJ)

@@ -144,8 +144,14 @@ int ft_print_x(long long n, t_param *p)
 	int len;
 	char *x = strcmp(p->type, "X") ? "0x" : "0X";
 
-	if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j"))
+	if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j") || !strcmp(p->modificator, "z"))
 		chislo = to_0xl(n);
+		else if (!strcmp(p->modificator, "h"))
+	{
+		chislo = to_0x((unsigned short)n);
+	}
+	else if (!strcmp(p->modificator, "hh"))
+		chislo = to_0x((unsigned char)n);
 	else
 		chislo = to_0x(n);
 	if (n == 0)

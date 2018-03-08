@@ -24,6 +24,7 @@ int	ft_atoi(const char *a);
 char	*ft_strnstr(const char *s1, const char *s2, size_t n);
 int	dow(int n);
 char	*ft_strsub(char const *s, unsigned int start, size_t len);
+int ft_print_sS(wchar_t *sstr, t_param *p);
 int ft_print_s(char *str, t_param *p);
 int ft_print_pr(char *str, t_param *p);
 char		*ft_itoa(int n);

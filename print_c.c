@@ -75,7 +75,7 @@ int ft_print_c(long long n, t_param *p)
         len = 1;
         return (pr_cx(chislo, p, len));
     }
-    else if (!strcmp(p->modificator, "l") && MB_CUR_MAX == 4)
+    else if ((!strcmp(p->modificator, "l") || !strcmp(p->type, "C")) && MB_CUR_MAX == 4)
     {
         len = ft_print_unicode(chislo, (wchar_t)n);
     }

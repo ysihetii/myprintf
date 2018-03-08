@@ -130,8 +130,14 @@ int ft_print_o(long long n, t_param *p)
 	int len;
 	char *x = "0";
 
-	if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j"))
+	if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j")  || !strcmp(p->type, "O") || !strcmp(p->modificator, "z"))
 		chislo = to_o0xl(n);
+	else if (!strcmp(p->modificator, "h"))
+	{
+		chislo = to_o0x((unsigned short)n);
+	}
+	else if (!strcmp(p->modificator, "hh"))
+		chislo = to_o0x((unsigned char)n);
 	else
 		chislo = to_o0x(n);
 	if (n == 0  && p->precision == 0 )
