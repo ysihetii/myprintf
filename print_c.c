@@ -23,7 +23,7 @@ int pr_cx(char *str, t_param *p, int len)
 	{
 		while (p->width - res - len > 0)
 			if (p->precision > -1)
-				res += write(1, " ", 1);
+				res += write(1, "0", 1);
 			else
 				res += write(1, "0", 1);
 		res += write(1, str, len);
@@ -73,6 +73,7 @@ int ft_print_c(long long n, t_param *p)
     {
         chislo = ft_strnew(1);
         len = 1;
+
         return (pr_cx(chislo, p, len));
     }
     else if ((!strcmp(p->modificator, "l") || !strcmp(p->type, "C")) && MB_CUR_MAX == 4)
@@ -84,7 +85,16 @@ int ft_print_c(long long n, t_param *p)
         chislo = ft_strnew(1);
         *chislo = (char)n;
     }
-
+    if (p->precision == 0 )
+    {
+        for (int j = 0; j < p->width - 1; j++)
+            if (p->flag[2])
+                write(1, "0", 1);
+            else
+                write(1, " ", 1);
+        write(1, chislo, 1);
+        return p->width;
+    }
     len = strlen(chislo);
     //printf("\nlen=%i chislo=%s\n", len, chislo);
     return (pr_cx(chislo, p, len));

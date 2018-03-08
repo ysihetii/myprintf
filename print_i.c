@@ -137,18 +137,19 @@ int ft_print_i(long long n, t_param *p)
 	x = p->flag[4] ? " " : 0;
 	x = p->flag[0] ? "+" : x;
 
-		
 	//printf("n=%lli\n", n);
 	//printf("\nx=%ss\n", x);
-	if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j") || !strcmp(p->type, "D"))
+	if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j") || !strcmp(p->type, "D") || !strcmp(p->modificator, "z"))
 		{
-			chislo = to_i0xl(n);
+
 			x = n < (long long)0 ? "-" : x;
-		}
+			chislo = to_i0xl(n);
+			
+		}/*
 	else if (!strcmp(p->modificator, "z"))
 		{
 			chislo = to_i0xl((size_t)n);
-		}
+		}*/
 	else if (!strcmp(p->modificator, "h"))
 	{
 		x = (short)n < 0 ? "-" : x;

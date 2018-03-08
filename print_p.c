@@ -94,7 +94,7 @@ int pr_ppx(char *str, t_param *p, int len, char* x)
 	}
 	else
 	{
-		while (p->width - res - len - 4 * (int)(p->flag[3] == '#')> 0)
+		while (p->width - res - len - 2 * (int)(p->flag[3] == '#')> 0)
 			res += write(1, " ", 1);
 		if (p->flag[3])
 			res += write(1, x, 2);

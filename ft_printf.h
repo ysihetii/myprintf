@@ -38,5 +38,6 @@ int ft_print_u(unsigned long long n, t_param *p);
 int ft_print_c(long long n, t_param *p);
 int ft_print_p(unsigned long long n, t_param *p);
 
+
 void ft_print_param(t_param *p);
 #endif

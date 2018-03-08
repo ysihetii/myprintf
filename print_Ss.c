@@ -48,7 +48,7 @@ int pr_sxS(char *str, t_param *p, int len)
 	{
 		while (p->width - res - len > 0)
 			if (p->precision > -1)
-				res += write(1, " ", 1);
+				res += write(1, "0", 1);
 			else
 				res += write(1, "0", 1);
 		res += write(1, str, len);
@@ -131,8 +131,13 @@ int ft_print_sS(wchar_t *sstr, t_param *p)
 		for (int j = 0; j< 4; j++)
 			s[j] = '\0';
 		i = ft_print_unicodesS(s, *sstr);
-		strcpy(&str[k], s);
-		sstr++;
+		if ((p->precision != -17777 && p->precision >= k + i) || p->precision == -17777)
+		{
+			strcpy(&str[k], s);
+			sstr++;
+		}
+		else
+			break ;
 		k += i;
 	}
 	len = strlen(str);
@@ -152,7 +157,17 @@ write(1,"\n",1);
 
 
 	len = strlen(str);
-	if (p->precision <= 0 && p->precision != -17777)
+		if (p->precision == 0 )
+	{
+
+		for (int j = 0; j < p->width; j++)
+			if (p->flag[2])
+				write(1, "0", 1);
+			else
+				write(1, " ", 1);
+		return p->width;
+	}
+	if (p->precision < 0 && p->precision != -17777)
 	{
 		for (int j = 0; j > p->precision; j--)
 			write(1, " ", 1);

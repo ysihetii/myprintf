@@ -153,6 +153,8 @@ int ft_print_o(long long n, t_param *p)
 	}
 	if (p->precision > (int)strlen(chislo))
 		chislo = ft_opr(&chislo, p->precision);
+	if (chislo[0] == '0')
+		p->flag[3] = 0;
 	len = strlen(chislo);
 	return (pr_ox(chislo, p, len, x));
 }

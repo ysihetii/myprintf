@@ -18,7 +18,7 @@ NAME=libftprintf.a
 
 CUSTOM_FT=parsing.o
 
-OBJ_PART1=print_s.o print_i.o ft_atoi.o ox.o print_o.o print_u.o print_c.o print_p.o print_Ss.o
+OBJ_PART1=print_s.o print_i.o ft_atoi.o ox.o print_o.o print_u.o print_c.o print_p.o print_Ss.o 
 
 
 
