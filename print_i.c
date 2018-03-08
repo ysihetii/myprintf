@@ -138,6 +138,8 @@ int ft_print_i(long long n, t_param *p)
 	x = p->flag[0] ? "+" : x;
 
 	//printf("n=%lli\n", n);
+	//printf("\nn=%lli\n", n);
+	//ft_print_param(p);
 	//printf("\nx=%ss\n", x);
 	if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j") || !strcmp(p->type, "D") || !strcmp(p->modificator, "z"))
 		{
@@ -177,5 +179,6 @@ int ft_print_i(long long n, t_param *p)
 	if (p->precision > (int)strlen(chislo))
 		chislo = ft_ipr(&chislo, p->precision);
 	len = strlen(chislo);
+	//printf("\nch=%s len=%i", chislo, len);
 	return (pr_ix(chislo, p, len, x));
 }

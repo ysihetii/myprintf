@@ -2,7 +2,7 @@
 # define FT_PRINTF_H
 
 # define TYPES_NUM 20
-# define MODIFICATORS_NUM 6
+# define MODIFICATORS_NUM 5
 
 #include <stdlib.h>
 
