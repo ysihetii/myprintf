@@ -27,10 +27,7 @@ char *to_u0xl(unsigned long long n)
 	char *res;
 
 	nn = n;
-	//printf("\nnn=%lli\n", nn);
 	len = dow_u0x(n);
-	//res = (char*)malloc(len + 1);
-	//res[len + 1] = '\0';
 	res = ft_strnew(len);
 	while (len > 0)
 	{
@@ -47,11 +44,7 @@ char *to_u0x(unsigned int n)
 	char *res;
 
 	nn = n;
-	//printf("\nnn=%u\n", nn);
 	len = dow_u0x(nn);
-	//printf("\ndow=%i\n", len);
-	//res = (char*)malloc(len + 1);
-	//res[len + 1] = '\0';
 	res = ft_strnew(len);
 	while (len > 0)
 	{
@@ -68,10 +61,7 @@ char *ft_upr(char **str, int precision)
 	char *res;
 
 	len = strlen(*str);
-	//res = (char*)malloc(precision + 1);
-	//res[precision + 1] = '\0';
 	res = ft_strnew(precision);
-	//res = ft_strnew(2);
 	i = 0;
 	while (i < precision)
 		{
@@ -88,7 +78,6 @@ char *ft_upr(char **str, int precision)
 int pr_ux(char *str, t_param *p, int len, char* x)
 {
 	int res;
-//printf("\ntfcvghjbhjkgnbjkgbuhj\n");
 	res = 0;
 	if (len >= p->width)
 	{
@@ -120,6 +109,7 @@ int pr_ux(char *str, t_param *p, int len, char* x)
 			res += write(1, x, 2);
 		res += write(1, str, len);
 	}
+	free(str);
 	return (res);
 }
 

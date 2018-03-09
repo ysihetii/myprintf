@@ -34,6 +34,8 @@ int pr_cx(char *str, t_param *p, int len)
 			res += write(1, " ", 1);
 		res += write(1, str, len);
 	}
+    if (str)
+        free(str);
 	return (res);
 }
 
@@ -93,6 +95,7 @@ int ft_print_c(long long n, t_param *p)
             else
                 write(1, " ", 1);
         write(1, chislo, 1);
+        free(chislo);
         return p->width;
     }
     len = strlen(chislo);

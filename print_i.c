@@ -28,10 +28,7 @@ char *to_i0xl(long long n)
 	char *res;
 
 	nn = (n < 0) ? -n : n;
-	//printf("\nnn=%lli\n", nn);
 	len = dow_i0x(nn);
-	//res = (char*)malloc(len + 1);
-	//res[len + 1] = '\0';
 	res = ft_strnew(len);
 	while (len > 0)
 	{
@@ -48,11 +45,7 @@ char *to_i0x(int n)
 	char *res;
 
 	nn = (n < 0) ? -n : n;
-	//printf("\nnn=%u\n", nn);
 	len = dow_i0x(nn);
-	//printf("\ndow=%i\n", len);
-	//res = (char*)malloc(len + 1);
-	//res[len + 1] = '\0';
 	res = ft_strnew(len);
 	while (len > 0)
 	{
@@ -69,10 +62,7 @@ char *ft_ipr(char **str, int precision)
 	char *res;
 
 	len = strlen(*str);
-	//res = (char*)malloc(precision + 1);
-	//res[precision + 1] = '\0';
 	res = ft_strnew(precision);
-	//res = ft_strnew(2);
 	i = 0;
 	while (i < precision)
 		{
@@ -124,6 +114,7 @@ int pr_ix(char *str, t_param *p, int len, char* x)
 			res += write(1, x, 1);
 		res += write(1, str, len);
 	}
+	free(str);
 	return (res);
 }
 
@@ -137,26 +128,17 @@ int ft_print_i(long long n, t_param *p)
 	x = p->flag[4] ? " " : 0;
 	x = p->flag[0] ? "+" : x;
 
-	//printf("n=%lli\n", n);
-	//printf("\nn=%lli\n", n);
-	//ft_print_param(p);
-	//printf("\nx=%ss\n", x);
 	if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j") || !strcmp(p->type, "D") || !strcmp(p->modificator, "z"))
 		{
 
 			x = n < (long long)0 ? "-" : x;
 			chislo = to_i0xl(n);
 			
-		}/*
-	else if (!strcmp(p->modificator, "z"))
-		{
-			chislo = to_i0xl((size_t)n);
-		}*/
+		}
 	else if (!strcmp(p->modificator, "h"))
 	{
 		x = (short)n < 0 ? "-" : x;
 		pp = (short)n;
-		//printf("n=%d\n", (int)pp);
 		chislo = to_i0x((short)n);
 	}
 	else if (!strcmp(p->modificator, "hh"))
@@ -169,7 +151,6 @@ int ft_print_i(long long n, t_param *p)
 				x = n < (long long)0 ? "-" : x;
 			chislo = to_i0x(n);
 		}
-	//printf("\nchislo=%ss\n", chislo);
 	if (n == 0 && p->precision == 0)
 	{
 		free(chislo);
@@ -179,6 +160,5 @@ int ft_print_i(long long n, t_param *p)
 	if (p->precision > (int)strlen(chislo))
 		chislo = ft_ipr(&chislo, p->precision);
 	len = strlen(chislo);
-	//printf("\nch=%s len=%i", chislo, len);
 	return (pr_ix(chislo, p, len, x));
 }

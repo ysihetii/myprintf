@@ -59,6 +59,8 @@ int pr_sxS(char *str, t_param *p, int len)
 			res += write(1, " ", 1);
 		res += write(1, str, len);
 	}
+	if (str)
+		free(str);
 	return (res);
 }
 void ft_putcharS(char c)
@@ -115,7 +117,8 @@ int ft_print_sS(wchar_t *sstr, t_param *p)
 	i = 0;
 	if (!sstr)
 {
-	str = "(null)";
+	str = ft_strnew(6);
+	strcpy(str, "(null)");
 	len = 6;
 	return(pr_sxS(str, p, len));
 }
@@ -141,20 +144,6 @@ int ft_print_sS(wchar_t *sstr, t_param *p)
 		k += i;
 	}
 	len = strlen(str);
-	//printf("\nlen=%i\n", len);
-	//printf("%S\n", u);
-	/*
-	ft_print_param(p);
-write(1,p->type, 1);
-write(1,"\n",1);
-ft_putnbr(p->precision);
-write(1,"\n",1);
-ft_putnbr(p->width);
-
-write(1, str, strlen(str));
-write(1,"\n",1);
-*/
-
 
 	len = strlen(str);
 		if (p->precision == 0 )
@@ -165,12 +154,16 @@ write(1,"\n",1);
 				write(1, "0", 1);
 			else
 				write(1, " ", 1);
+			if (str)
+				free(str);
 		return p->width;
 	}
 	if (p->precision < 0 && p->precision != -17777)
 	{
 		for (int j = 0; j > p->precision; j--)
 			write(1, " ", 1);
+		if (str)
+			free(str);
 		return (-p->precision);
 	}
 	if (p->precision < len && p->precision != -17777)
@@ -181,6 +174,8 @@ write(1,"\n",1);
 	if (len >= p->width)
 	{
 		write(1, str, len);
+		if (str)
+			free(str);
 		return(len);
 	}
 	else 

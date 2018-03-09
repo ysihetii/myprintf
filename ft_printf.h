@@ -13,9 +13,19 @@ typedef struct s_param
 	char	flag[5];
 	int		width;
 	int		precision;
-	char	*modificator;
-	char	*type;
+	char	modificator[3];
+	char	type[3];
 }			t_param;
+
+
+int find_h(char *str);
+int ft_pass_digit(char *str);
+void ft_print_param(t_param *p);
+void print_flags(t_param *p);
+int not_alph(char c);
+int is_dig(char c);
+int find_z(char *str);
+
 
 int	ft_printf(char *format, ...);
 
@@ -27,7 +37,7 @@ char	*ft_strsub(char const *s, unsigned int start, size_t len);
 int ft_print_sS(wchar_t *sstr, t_param *p);
 int ft_print_s(char *str, t_param *p);
 int ft_print_pr(char *str, t_param *p);
-char		*ft_itoa(int n);
+//char		*ft_itoa(int n);
 char	*ft_strnew(size_t size);
 char	*ft_strsub(char const *s, unsigned int start, size_t len);
 int print_flag_and_width(int len, t_param *p, char *str);
@@ -39,5 +49,5 @@ int ft_print_c(long long n, t_param *p);
 int ft_print_p(unsigned long long n, t_param *p);
 
 
-void ft_print_param(t_param *p);
+
 #endif

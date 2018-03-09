@@ -52,29 +52,7 @@ char	*ft_strnew(size_t size)
 		return (0);
 }
 
-char		*ft_itoa(int n)
-{
-	int		l;
-	int		zn;
-	char	*res;
 
-	zn = 0;
-	if (n < 0)
-		zn = 1;
-	l = dow(n) + zn;
-	res = ft_strnew(l);
-	if (!res)
-		return (0);
-	if (zn)
-		res[0] = '-';
-	while (l > zn)
-	{
-		res[l - 1] = '0' + mod(n % 10);
-		n /= 10;
-		l--;
-	}
-	return (res);
-}
 
 int	ft_atoi(const char *a)
 {

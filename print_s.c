@@ -26,6 +26,7 @@ int print_flag_and_width(int len, t_param *p, char *str)
 			write (1, " ", 1);
 		write (1, str, len);
 	}
+	//free(str);
 	return (p->width);
 }
 
@@ -61,6 +62,7 @@ int pr_sx(char *str, t_param *p, int len)
 			res += write(1, " ", 1);
 		res += write(1, str, len);
 	}
+	//free(str);
 	return (res);
 }
 void ft_putchar(char c)
@@ -86,22 +88,11 @@ int max(int a, int b)
 int ft_print_s(char *str, t_param *p)
 {
 	int len;
-	/*
-	ft_print_param(p);
-write(1,p->type, 1);
-write(1,"\n",1);
-ft_putnbr(p->precision);
-write(1,"\n",1);
-ft_putnbr(p->width);
-
-write(1, str, strlen(str));
-write(1,"\n",1);
-*/
+	
 if (!str)
 {
 	str = "(null)";
 	len = 6;
-	//return(pr_sx(str, p, len));
 }
 else
 	len = strlen(str);
@@ -113,32 +104,27 @@ else
 				write(1, "0", 1);
 			else
 				write(1, " ", 1);
+			//free(str);
 		return p->width;
 	}
 	if (p->precision < 0 && p->precision != -17777)
 	{
 		for (int j = 0; j > p->precision; j--)
 			write(1, " ", 1);
+		//free(str);
 		return (-p->precision);
 	}
 	if (p->precision < len && p->precision != -17777)
 	{
-		//write(1,"lol\n",4);
-		//ft_putnbr(p->precision);
-		//write(1,"\n",1);
-		//ft_putnbr(len);
-		//write(1,"\n",1);
-		//for (int j = p->precision; j < len; j++)
-			//str[p->precision] = '\0';
-		//write(1,"lol\n",4);
+	
 		if (p->precision != -17777)
 			len = p->precision;
-		//write(1, str, strlen(str));
-		//write(1,"\n",1);
+	
 	}
 	if (len >= p->width)
 	{
 		write(1, str, len);
+		//free(str);
 		return(len);
 	}
 	else 
@@ -150,8 +136,7 @@ int ft_print_pr(char *str, t_param *p)
 {
 	int len;
 
-	//if (p->precision < 0)
-		//p->precision = -p->precision;
+	
 	if (p->precision == 0)
 		p->precision = 1;
 	len = strlen(str);
@@ -159,6 +144,7 @@ int ft_print_pr(char *str, t_param *p)
 	{
 		for (int j = 0; j > p->precision; j--)
 			write(1, " ", 1);
+		//free(str);
 		return (-p->precision);
 	}
 	if (p->precision < len && p->precision != -17777)
@@ -170,6 +156,7 @@ int ft_print_pr(char *str, t_param *p)
 	if (len >= p->width)
 	{
 		write(1, str, len);
+		//free(str);
 		return(len);
 	}
 	else 

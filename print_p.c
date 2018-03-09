@@ -27,10 +27,7 @@ char *to_p0xl(unsigned long long n)
 	char *res;
 
 	nn = n;
-	//printf("\nnn=%lli\n", nn);
 	len = dow_p0x(n);
-	//res = (char*)malloc(len + 1);
-	//res[len + 1] = '\0';
 	res = ft_strnew(len);
 	while (len > 0)
 	{
@@ -48,10 +45,7 @@ char *ft_ppr(char **str, int precision)
 	char *res;
 
 	len = strlen(*str);
-	//res = (char*)malloc(precision + 1);
-	//res[precision + 1] = '\0';
 	res = ft_strnew(precision);
-	//res = ft_strnew(2);
 	i = 0;
 	while (i < precision)
 		{
@@ -100,6 +94,7 @@ int pr_ppx(char *str, t_param *p, int len, char* x)
 			res += write(1, x, 2);
 		res += write(1, str, len);
 	}
+	free(str);
 	return (res);
 }
 
