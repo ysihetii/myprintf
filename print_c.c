@@ -84,6 +84,7 @@ int ft_print_c(long long n, t_param *p)
     }
     else
     {
+        free(chislo);
         chislo = ft_strnew(1);
         *chislo = (char)n;
     }

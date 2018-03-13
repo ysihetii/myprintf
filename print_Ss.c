@@ -143,6 +143,8 @@ int ft_print_sS(wchar_t *sstr, t_param *p)
 			break ;
 		k += i;
 	}
+	if (s)
+		free(s);
 	len = strlen(str);
 
 	len = strlen(str);

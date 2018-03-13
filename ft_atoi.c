@@ -110,9 +110,14 @@ char	*ft_strsub(char const *s, unsigned int start, size_t len)
 	char *q;
 
 	q = (char*)malloc(len + 1);
+		if (!q)
+			return(0);
 	q[len] = '\0';
-	if (!q || !s)
+	if (!s)
+	{
+		free(q);
 		return (0);
+	}
 	q = strncpy(q, &(s[start]), len);
 	return (q);
 }
