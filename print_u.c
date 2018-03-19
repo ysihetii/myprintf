@@ -76,25 +76,12 @@ char *ft_upr(char **str, int precision)
 	return (res);
 }
 
-int pr_ux(char *str, t_param *p, int len, char* x)
+int fucontinue(char *str, t_param *p, int len, char *x)
 {
 	int res;
+
 	res = 0;
-	if (len >= p->width)
-	{
-		if (p->flag[3])
-			res += write(1, x, 2);
-		res += write(1, str, len);
-	}
-	else if (p->flag[1])
-	{
-		if (p->flag[3])
-			res += write(1, x, 2);
-		res += write(1, str, len);
-		while (p->width - res > 0)
-			res += write(1, " ", 1);
-	}
-	else if (p->flag[2])
+	if (p->flag[2])
 	{
 		if (p->flag[3])
 			res += write(1, x, 2);
@@ -110,6 +97,29 @@ int pr_ux(char *str, t_param *p, int len, char* x)
 			res += write(1, x, 2);
 		res += write(1, str, len);
 	}
+	return (res);
+}
+int pr_ux(char *str, t_param *p, int len, char *x)
+{
+	int res;
+
+	res = 0;
+	if (len >= p->width)
+	{
+		if (p->flag[3])
+			res += write(1, x, 2);
+		res += write(1, str, len);
+	}
+	else if (p->flag[1])
+	{
+		if (p->flag[3])
+			res += write(1, x, 2);
+		res += write(1, str, len);
+		while (p->width - res > 0)
+			res += write(1, " ", 1);
+	}
+	else
+		res = fucontinue(str, p, len, x);
 	free(str);
 	return (res);
 }
@@ -117,14 +127,13 @@ int pr_ux(char *str, t_param *p, int len, char* x)
 int ft_print_u(unsigned long long n, t_param *p)
 {
 	char *chislo;
-	int len;
-	char *x = strcmp(p->type, "X") ? "0x" : "0X";
+	char *x;
+
+	x = strcmp(p->type, "X") ? "0x" : "0X";
 	if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j")|| !strcmp(p->type, "U") || !strcmp(p->modificator, "z"))
 		chislo = to_u0xl(n);
 	else if (!strcmp(p->modificator, "h"))
-	{
 		chislo = to_u0x((unsigned short)n);
-	}
 	else if (!strcmp(p->modificator, "hh"))
 		chislo = to_u0x((unsigned char)n);
 	else
@@ -132,12 +141,8 @@ int ft_print_u(unsigned long long n, t_param *p)
 	if (n == 0)
 		p->flag[3] = 0;
 	if (n == 0 && p->precision == 0)
-	{
-		free(chislo);
-		chislo = ft_strnew(0);
-	}
+		bzero(chislo, strlen(chislo));
 	if (p->precision > (int)strlen(chislo))
 		chislo = ft_upr(&chislo, p->precision);
-	len = strlen(chislo);
-	return (pr_ux(chislo, p, len, x));
+	return (pr_ux(chislo, p, strlen(chislo), x));
 }

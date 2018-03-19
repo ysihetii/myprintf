@@ -139,25 +139,13 @@ int ft_print_i(long long n, t_param *p)
 	x = p->flag[4] ? " " : 0;
 	x = p->flag[0] ? "+" : x;
 	if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j") || !strcmp(p->type, "D") || !strcmp(p->modificator, "z"))
-		{
-			//x = n < (long long)0 ? "-" : x;
 			chislo = to_i0xl(n, &x);
-		}
 	else if (!strcmp(p->modificator, "ww"))
-	{
-		//x = (int)n < 0 ? "-" : x;
 		chislo = to_i0x((int)n, &x);
-	}
 	else if (!strcmp(p->modificator, "h"))
-	{
-		//x = (short)n < 0 ? "-" : x;
 		chislo = to_i0x((short)n, &x);
-	}
 	else if (!strcmp(p->modificator, "hh"))
-	{
-		//x = (signed char)n < 0 ? "-" : x;
 		chislo = to_i0x((signed char)n, &x);
-	}
 	if (n == 0 && p->precision == 0)
 		bzero(chislo, strlen(chislo));
 	if (p->precision > (int)strlen(chislo))

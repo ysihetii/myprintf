@@ -23,16 +23,14 @@ char xp[16] ={'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', '
 char *to_p0xl(unsigned long long n)
 {
 	int len;
-	uintmax_t nn = 1844674407370955161;
 	char *res;
 
-	nn = n;
 	len = dow_p0x(n);
 	res = ft_strnew(len);
 	while (len > 0)
 	{
-		res[len - 1] = xp[nn % 16];
-		nn /= 16;
+		res[len - 1] = xp[n % 16];
+		n /= 16;
 		len--;
 	}
 	return (res);
@@ -59,7 +57,31 @@ char *ft_ppr(char **str, int precision)
 	return (res);
 }
 
-int pr_ppx(char *str, t_param *p, int len, char* x)
+int fpcontinue(char *str, t_param *p, int len, char *x)
+{
+	int res;
+
+	res = 0;
+	if (p->flag[2])
+	{
+		if (p->flag[3])
+			res += write(1, x, 2);
+		while (p->width - res - len > 0)
+			res += write(1, "0", 1);
+		res += write(1, str, len);
+	}
+	else
+	{
+		while (p->width - res - len - 2 * (int)(p->flag[3] == '#')> 0)
+			res += write(1, " ", 1);
+		if (p->flag[3])
+			res += write(1, x, 2);
+		res += write(1, str, len);
+	}
+	return (res);
+}
+
+int pr_ppx(char *str, t_param *p, int len, char *x)
 {
 	int res;
 
@@ -78,22 +100,8 @@ int pr_ppx(char *str, t_param *p, int len, char* x)
 		while (p->width - res > 0)
 			res += write(1, " ", 1);
 	}
-	else if (p->flag[2])
-	{
-		if (p->flag[3])
-			res += write(1, x, 2);
-		while (p->width - res - len > 0)
-			res += write(1, "0", 1);
-		res += write(1, str, len);
-	}
-	else
-	{
-		while (p->width - res - len - 2 * (int)(p->flag[3] == '#')> 0)
-			res += write(1, " ", 1);
-		if (p->flag[3])
-			res += write(1, x, 2);
-		res += write(1, str, len);
-	}
+	else 
+		res = fpcontinue(str, p, len, x);
 	free(str);
 	return (res);
 }
@@ -102,9 +110,10 @@ int ft_print_p(unsigned long long n, t_param *p)
 {
 	char *chislo;
 	int len;
-	char *x = "0x";
+	char *x;
 
 	p->flag[3] = '#';
+	x = "0x";
 	chislo = to_p0xl(n);
 
 	if (n == 0 && p->precision == 0)

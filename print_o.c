@@ -76,7 +76,31 @@ char *ft_opr(char **str, int precision)
 	return (res);
 }
 
-int pr_ox(char *str, t_param *p, int len, char* x)
+int focontinue(char *str, t_param *p, int len, char *x)
+{
+	int res;
+
+	res = 0;
+	if (p->flag[2])
+	{
+		if (p->flag[3])
+			res += write(1, x, 1);
+		while (p->width - res - len > 0)
+			res += write(1, "0", 1);
+		res += write(1, str, len);
+	}
+	else
+	{
+		while (p->width - res - len - (int)(p->flag[3] == '#')> 0)
+			res += write(1, " ", 1);
+		if (p->flag[3])
+			res += write(1, x, 1);
+		res += write(1, str, len);
+	}
+	return (res);
+}
+
+int pr_ox(char *str, t_param *p, int len, char *x)
 {
 	int res;
 
@@ -95,22 +119,8 @@ int pr_ox(char *str, t_param *p, int len, char* x)
 		while (p->width - res > 0)
 			res += write(1, " ", 1);
 	}
-	else if (p->flag[2])
-	{
-		if (p->flag[3])
-			res += write(1, x, 1);
-		while (p->width - res - len > 0)
-			res += write(1, "0", 1);
-		res += write(1, str, len);
-	}
-	else
-	{
-		while (p->width - res - len - (int)(p->flag[3] == '#')> 0)
-			res += write(1, " ", 1);
-		if (p->flag[3])
-			res += write(1, x, 1);
-		res += write(1, str, len);
-	}
+	else 
+		res = focontinue(str, p,len, x);
 	free(str);
 	return (res);
 }
@@ -118,34 +128,27 @@ int pr_ox(char *str, t_param *p, int len, char* x)
 int ft_print_o(long long n, t_param *p)
 {
 	char *chislo;
-	int len;
-	char *x = "0";
+	char *x;
 
+	x = "0";
 	if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j")  || !strcmp(p->type, "O") || !strcmp(p->modificator, "z"))
 		chislo = to_o0xl(n);
 	else if (!strcmp(p->modificator, "h"))
-	{
 		chislo = to_o0x((unsigned short)n);
-	}
 	else if (!strcmp(p->modificator, "hh"))
 		chislo = to_o0x((unsigned char)n);
 	else
 		chislo = to_o0x((int)n);
 	if (n == 0  && p->precision == 0 )
-	{
-		free(chislo);
-		chislo = ft_strnew(0);
-	}
+		bzero(chislo, strlen(chislo));
 	else if (n == 0)
 	{
 		p->flag[3] = '#';
-		free(chislo);
-		chislo = ft_strnew(0);
+		bzero(chislo, strlen(chislo));
 	}
 	if (p->precision > (int)strlen(chislo))
 		chislo = ft_opr(&chislo, p->precision);
 	if (chislo[0] == '0')
 		p->flag[3] = 0;
-	len = strlen(chislo);
-	return (pr_ox(chislo, p, len, x));
+	return (pr_ox(chislo, p, strlen(chislo), x));
 }
