@@ -105,82 +105,80 @@ int ft_print_unicodesS(char *s, wchar_t n)
     return (strlen(s));
 }
 
+void get_str(wchar_t *sstr, t_param *p, char *str)
+{
+	char *s;
+	int k;
+	int i;
+
+	str = (!sstr) ? strcpy(str, "(null)") : str;
+	s = ft_strnew(4);
+	k = 0;
+	i = 0;
+	if (sstr)
+		while (*sstr)
+		{
+			for (int j = 0; j< 4; j++)
+				s[j] = '\0';
+			i = ft_print_unicodesS(s, *sstr);
+			if ((p->precision != -17777 && p->precision >= k + i) || p->precision == -17777)
+			{
+				strcpy(&str[k], s);
+				sstr++;
+			}
+			else
+				break ;
+			k += i;
+		}
+	if (s)
+		free(s);
+}
+
+int dododo(t_param *p)
+{
+	int res;
+	int i;
+
+	res = 0;
+	i = 0;
+	while (i++ < p->width)
+			if (p->flag[2])
+				res += write(1, "0", 1);
+			else
+				res += write(1, " ", 1);
+	return (res);
+}
+
 int ft_print_sS(wchar_t *sstr, t_param *p)
 {
 	int i;
-	int k=0;
+	int res;
 	char *str;
-	
-	char *s;
-
 	int len;
+
 	i = 0;
-	if (!sstr)
-{
-	str = ft_strnew(6);
-	strcpy(str, "(null)");
-	len = 6;
-	return(pr_sxS(str, p, len));
-}
-	while (sstr[i])
+	res = 0;
+	while (sstr && sstr[i])
 		i++;
-	s = ft_strnew(4);
-	str = ft_strnew(i * MB_CUR_MAX);
-		//printf("\ni=%i", i);
+	str = ft_strnew((i + 7) * MB_CUR_MAX);
+	get_str(sstr, p, str);
 	i = 0;
-
-	while (*sstr)
-	{
-		for (int j = 0; j< 4; j++)
-			s[j] = '\0';
-		i = ft_print_unicodesS(s, *sstr);
-		if ((p->precision != -17777 && p->precision >= k + i) || p->precision == -17777)
-		{
-			strcpy(&str[k], s);
-			sstr++;
-		}
-		else
-			break ;
-		k += i;
-	}
-	if (s)
-		free(s);
-	len = strlen(str);
-
-	len = strlen(str);
-		if (p->precision == 0 )
-	{
-
-		for (int j = 0; j < p->width; j++)
+	len = (p->precision < (int)strlen(str) && p->precision != -17777) ? p->precision : strlen(str);
+	if (p->precision == 0)
+		res = dododo(p);
+		/*while (i++ < p->width)
 			if (p->flag[2])
-				write(1, "0", 1);
+				res += write(1, "0", 1);
 			else
-				write(1, " ", 1);
-			if (str)
-				free(str);
-		return p->width;
-	}
-	if (p->precision < 0 && p->precision != -17777)
-	{
-		for (int j = 0; j > p->precision; j--)
-			write(1, " ", 1);
-		if (str)
-			free(str);
-		return (-p->precision);
-	}
-	if (p->precision < len && p->precision != -17777)
-	{
-		if (p->precision != -17777)
-			len = p->precision;
-	}
-	if (len >= p->width)
-	{
-		write(1, str, len);
-		if (str)
-			free(str);
-		return(len);
-	}
+				res += write(1, " ", 1);*/
+	else if (p->precision < 0 && p->precision != -17777)
+		while (i-- > p->precision)
+			res += write(1, " ", 1);
+	else if (len >= p->width)
+		res += write(1, str, len);
 	else 
 		return(pr_sxS(str, p, len));
-return (0);
+	if (str)
+			free(str);
+return (res);
 }
