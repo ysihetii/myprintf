@@ -23,9 +23,10 @@ int	dow_u0x(unsigned long long n)
 char *to_u0xl(unsigned long long n)
 {
 	int len;
-	uintmax_t nn = 1844674407370955161;
+	uintmax_t nn;
 	char *res;
 
+	nn = 1844674407370955161;
 	nn = n;
 	len = dow_u0x(n);
 	res = ft_strnew(len);
@@ -127,7 +128,7 @@ int ft_print_u(unsigned long long n, t_param *p)
 	else if (!strcmp(p->modificator, "hh"))
 		chislo = to_u0x((unsigned char)n);
 	else
-		chislo = to_u0x(n);
+		chislo = to_u0x((unsigned int)n);
 	if (n == 0)
 		p->flag[3] = 0;
 	if (n == 0 && p->precision == 0)

@@ -130,7 +130,7 @@ int ft_print_o(long long n, t_param *p)
 	else if (!strcmp(p->modificator, "hh"))
 		chislo = to_o0x((unsigned char)n);
 	else
-		chislo = to_o0x(n);
+		chislo = to_o0x((int)n);
 	if (n == 0  && p->precision == 0 )
 	{
 		free(chislo);
