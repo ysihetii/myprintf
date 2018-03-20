@@ -10,15 +10,15 @@
 #                                                                              #
 #******************************************************************************#
 
-CC=gcc -Wall -Wextra -Werror -c
+CC=gcc -Wall -Wextra -Werror -c -I libft/includes
 
 #FLAGS=-Wall -Wextra -Werror
 
 NAME=libftprintf.a
 
-CUSTOM_FT=parsing.o
+CUSTOM_FT=parsing.o parsing2.o
 
-OBJ_PART1=print_s.o print_i.o ft_atoi.o ox.o print_o.o print_u.o print_c.o print_p.o print_Ss.o fun.o
+OBJ_PART1=print_s.o print_i.o ft_atoi.o ox.o print_o.o print_u.o print_cc.o print_p.o print_sss.o fun.o fun2.o fun3.o 
 
 
 
@@ -27,13 +27,15 @@ OBJ=$(CUSTOM_FT) $(OBJ_PART1)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	ar rc $(NAME) $(OBJ); ranlib $(NAME)
+	make -C libft all
+	ar rc $(NAME) $(OBJ) libft/*.o
+	ranlib $(NAME)
 
 #Custom
 parsing.o: parsing.c
 	$(CC) parsing.c
-
-
+parsing2.o: parsing2.c
+	$(CC) parsing2.c
 
 
 #Part 1
@@ -49,19 +51,25 @@ print_o.o: print_o.c
 	$(CC) print_o.c
 print_u.o: print_u.c
 	$(CC) print_u.c
-print_c.o: print_c.c
-	$(CC) print_c.c
+print_cc.o: print_cc.c
+	$(CC) print_cc.c
 print_p.o: print_p.c
 	$(CC) print_p.c
-print_Ss.o: print_Ss.c
-	$(CC) print_Ss.c
+print_sss.o: print_sss.c
+	$(CC) print_sss.c
 fun.o: fun.c
 	$(CC) fun.c
+fun2.o: fun2.c
+	$(CC) fun2.c
+fun3.o: fun3.c
+	$(CC) fun3.c
 
 clean:
+	make -C libft clean
 	rm -rf $(OBJ)
 
 fclean: clean
+	rm libft/libft.a
 	rm $(NAME)
 
 re: fclean all

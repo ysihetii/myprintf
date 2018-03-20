@@ -1,31 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_i.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ysihetii <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/19 19:37:08 by ysihetii          #+#    #+#             */
+/*   Updated: 2018/03/19 19:37:09 by ysihetii         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
-#include <string.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-
-int	dow_i0x(unsigned long long n)
+char	*to_i0x(int n, char **x)
 {
-	int i;
-
-	i = 0;
-	if (n == 0)
-		return (1);
-	while (n != 0)
-	{
-		n /= 10;
-		i++;
-	}
-	return (i);
-}
-
-
-char *to_i0xl(long long n, char **x)
-{
-	int len;
-	uintmax_t nn ;
-	char *res;
+	int				len;
+	unsigned int	nn;
+	char			*res;
 
 	nn = (n < 0) ? -n : n;
 	*x = n < 0 ? "-" : *x;
@@ -39,46 +32,29 @@ char *to_i0xl(long long n, char **x)
 	}
 	return (res);
 }
-char *to_i0x(int n, char **x)
-{
-	int len;
-	unsigned int nn;
-	char *res;
 
-	nn = (n < 0) ? -n : n;
-	*x = n < 0 ? "-" : *x;
-	len = dow_i0x(nn);
-	res = ft_strnew(len);
-	while (len > 0)
-	{
-		res[len - 1] = '0' + nn % 10;
-		nn /= 10;
-		len--;
-	}
-	return (res);
-}
-char *ft_ipr(char **str, int precision)
+char	*ft_ipr(char **str, int precision)
 {
-	int len;
-	int i;
-	char *res;
+	int		len;
+	int		i;
+	char	*res;
 
-	len = strlen(*str);
+	len = ft_strlen(*str);
 	res = ft_strnew(precision);
 	i = 0;
 	while (i < precision)
-		{
-			if (i < precision - len)
-				res[i] = '0';
-			else
-				res[i] = (*str)[i + len - precision];
-			i++;
-		}
+	{
+		if (i < precision - len)
+			res[i] = '0';
+		else
+			res[i] = (*str)[i + len - precision];
+		i++;
+	}
 	free(*str);
 	return (res);
 }
 
-int ficontinue(char *str, t_param *p, int len, char* x)
+int		ficontinue(char *str, t_param *p, int len, char *x)
 {
 	int res;
 
@@ -96,7 +72,7 @@ int ficontinue(char *str, t_param *p, int len, char* x)
 	}
 	else
 	{
-		while (p->width - res - len - (int)(x != 0)> 0)
+		while (p->width - res - len - (int)(x != 0) > 0)
 			res += write(1, " ", 1);
 		if (x)
 			res += write(1, x, 1);
@@ -105,7 +81,7 @@ int ficontinue(char *str, t_param *p, int len, char* x)
 	return (res);
 }
 
-int pr_ix(char *str, t_param *p, int len, char* x)
+int		pr_ix(char *str, t_param *p, int len, char *x)
 {
 	int res;
 
@@ -124,32 +100,36 @@ int pr_ix(char *str, t_param *p, int len, char* x)
 		while (p->width - res > 0)
 			res += write(1, " ", 1);
 	}
-	else 
+	else
 		res = ficontinue(str, p, len, x);
 	free(str);
 	return (res);
 }
 
-int ft_print_i(long long n, t_param *p)
+int		ft_print_i(long long n, t_param *p)
 {
-	char *chislo;
-	int len;
-	char *x;
+	char	*chislo;
+	int		len;
+	char	*x;
 
 	x = p->flag[4] ? " " : 0;
 	x = p->flag[0] ? "+" : x;
-	if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j") || !strcmp(p->type, "D") || !strcmp(p->modificator, "z"))
-			chislo = to_i0xl(n, &x);
-	else if (!strcmp(p->modificator, "ww"))
+	if (!ft_strcmp(p->modificator, "l") || !ft_strcmp(p->modificator, "ll")
+	|| !ft_strcmp(p->modificator, "j") || !ft_strcmp(p->type, "D")
+	|| !ft_strcmp(p->modificator, "z"))
+		chislo = to_i0xl(n, &x);
+	else if (!ft_strcmp(p->modificator, "ww"))
 		chislo = to_i0x((int)n, &x);
-	else if (!strcmp(p->modificator, "h"))
+	else if (!ft_strcmp(p->modificator, "h"))
 		chislo = to_i0x((short)n, &x);
-	else if (!strcmp(p->modificator, "hh"))
+	else if (!ft_strcmp(p->modificator, "hh"))
 		chislo = to_i0x((signed char)n, &x);
+	else
+		chislo = to_i0x((int)n, &x);
 	if (n == 0 && p->precision == 0)
-		bzero(chislo, strlen(chislo));
-	if (p->precision > (int)strlen(chislo))
+		ft_bzero(chislo, ft_strlen(chislo));
+	if (p->precision > (int)ft_strlen(chislo))
 		chislo = ft_ipr(&chislo, p->precision);
-	len = strlen(chislo);
+	len = ft_strlen(chislo);
 	return (pr_ix(chislo, p, len, x));
 }

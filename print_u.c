@@ -1,11 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_u.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ysihetii <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/03/19 20:22:06 by ysihetii          #+#    #+#             */
+/*   Updated: 2018/03/19 20:22:07 by ysihetii         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
-#include <string.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-
-int	dow_u0x(unsigned long long n)
+int		dow_u0x(unsigned long long n)
 {
 	int i;
 
@@ -20,63 +29,28 @@ int	dow_u0x(unsigned long long n)
 	return (i);
 }
 
-char *to_u0xl(unsigned long long n)
+char	*ft_upr(char **str, int precision)
 {
-	int len;
-	uintmax_t nn;
-	char *res;
+	int		len;
+	int		i;
+	char	*res;
 
-	nn = 1844674407370955161;
-	nn = n;
-	len = dow_u0x(n);
-	res = ft_strnew(len);
-	while (len > 0)
-	{
-		res[len - 1] = '0' + nn % 10;
-		nn /= 10;
-		len--;
-	}
-	return (res);
-}
-char *to_u0x(unsigned int n)
-{
-	int len;
-	unsigned int nn;
-	char *res;
-
-	nn = n;
-	len = dow_u0x(nn);
-	res = ft_strnew(len);
-	while (len > 0)
-	{
-		res[len - 1] = '0' + nn % 10;
-		nn /= 10;
-		len--;
-	}
-	return (res);
-}
-char *ft_upr(char **str, int precision)
-{
-	int len;
-	int i;
-	char *res;
-
-	len = strlen(*str);
+	len = ft_strlen(*str);
 	res = ft_strnew(precision);
 	i = 0;
 	while (i < precision)
-		{
-			if (i < precision - len)
-				res[i] = '0';
-			else
-				res[i] = (*str)[i + len - precision];
-			i++;
-		}
+	{
+		if (i < precision - len)
+			res[i] = '0';
+		else
+			res[i] = (*str)[i + len - precision];
+		i++;
+	}
 	free(*str);
 	return (res);
 }
 
-int fucontinue(char *str, t_param *p, int len, char *x)
+int		fucontinue(char *str, t_param *p, int len, char *x)
 {
 	int res;
 
@@ -91,7 +65,7 @@ int fucontinue(char *str, t_param *p, int len, char *x)
 	}
 	else
 	{
-		while (p->width - res - len - 2 * (int)(p->flag[3] == '#')> 0)
+		while (p->width - res - len - 2 * (int)(p->flag[3] == '#') > 0)
 			res += write(1, " ", 1);
 		if (p->flag[3])
 			res += write(1, x, 2);
@@ -99,7 +73,8 @@ int fucontinue(char *str, t_param *p, int len, char *x)
 	}
 	return (res);
 }
-int pr_ux(char *str, t_param *p, int len, char *x)
+
+int		pr_ux(char *str, t_param *p, int len, char *x)
 {
 	int res;
 
@@ -124,25 +99,27 @@ int pr_ux(char *str, t_param *p, int len, char *x)
 	return (res);
 }
 
-int ft_print_u(unsigned long long n, t_param *p)
+int		ft_print_u(unsigned long long n, t_param *p)
 {
 	char *chislo;
 	char *x;
 
-	x = strcmp(p->type, "X") ? "0x" : "0X";
-	if (!strcmp(p->modificator, "l") || !strcmp(p->modificator, "ll") || !strcmp(p->modificator, "j")|| !strcmp(p->type, "U") || !strcmp(p->modificator, "z"))
+	x = ft_strcmp(p->type, "X") ? "0x" : "0X";
+	if (!ft_strcmp(p->modificator, "l") || !ft_strcmp(p->modificator, "ll")
+	|| !ft_strcmp(p->modificator, "j") || !ft_strcmp(p->type, "U")
+	|| !ft_strcmp(p->modificator, "z"))
 		chislo = to_u0xl(n);
-	else if (!strcmp(p->modificator, "h"))
+	else if (!ft_strcmp(p->modificator, "h"))
 		chislo = to_u0x((unsigned short)n);
-	else if (!strcmp(p->modificator, "hh"))
+	else if (!ft_strcmp(p->modificator, "hh"))
 		chislo = to_u0x((unsigned char)n);
 	else
 		chislo = to_u0x((unsigned int)n);
 	if (n == 0)
 		p->flag[3] = 0;
 	if (n == 0 && p->precision == 0)
-		bzero(chislo, strlen(chislo));
-	if (p->precision > (int)strlen(chislo))
+		ft_bzero(chislo, ft_strlen(chislo));
+	if (p->precision > (int)ft_strlen(chislo))
 		chislo = ft_upr(&chislo, p->precision);
-	return (pr_ux(chislo, p, strlen(chislo), x));
+	return (pr_ux(chislo, p, ft_strlen(chislo), x));
 }

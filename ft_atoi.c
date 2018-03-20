@@ -6,19 +6,49 @@
 /*   By: ysihetii <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/12 14:18:08 by ysihetii          #+#    #+#             */
-/*   Updated: 2017/11/12 14:18:09 by ysihetii         ###   ########.fr       */
+/*   Updated: 2018/03/19 22:16:35 by ysihetii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include <stdlib.h>
 #include <string.h>
+#include "ft_printf.h"
 
-
-int mod(long long int a)
+void	to_upper(char *str)
 {
-	return (a > 0 ? a : -a);
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] >= 97 && str[i] <= 122)
+			str[i] -= 32;
+		i++;
+	}
 }
 
-int	dow(int n)
+char	*ft_pr(char **str, int precision)
+{
+	int		len;
+	int		i;
+	char	*res;
+
+	len = ft_strlen(*str);
+	res = ft_strnew(precision);
+	i = 0;
+	while (i < precision)
+	{
+		if (i < precision - len)
+			res[i] = '0';
+		else
+			res[i] = (*str)[i + len - precision];
+		i++;
+	}
+	free(*str);
+	return (res);
+}
+
+int		dow_0x(unsigned long long n)
 {
 	int i;
 
@@ -27,97 +57,57 @@ int	dow(int n)
 		return (1);
 	while (n != 0)
 	{
-		n /= 10;
+		n /= 16;
 		i++;
 	}
 	return (i);
 }
 
-
-char	*ft_strnew(size_t size)
-{
-	char	*q;
-	size_t	i;
-
-	q = (char*)malloc((int)size + 1);
-	i = 0;
-	if (q)
-	{
-		q[size] = '\0';
-		while (i < size)
-			q[i++] = 0;
-		return (q);
-	}
-	else
-		return (0);
-}
-
-
-
-int	ft_atoi(const char *a)
+int		print_flag_and_widthss(int len, t_param *p, char *str)
 {
 	int i;
-	int zn;
+
+	i = len;
+	if (p->flag[1])
+	{
+		write(1, str, len);
+		while (i++ < p->width)
+			write(1, " ", 1);
+	}
+	else if (p->flag[2])
+	{
+		while (i++ < p->width)
+			write(1, "0", 1);
+		write(1, str, len);
+	}
+	else
+	{
+		while (i++ < p->width)
+			write(1, " ", 1);
+		write(1, str, len);
+	}
+	return (p->width);
+}
+
+int		fssscontinue(char *str, t_param *p, int len)
+{
 	int res;
 
-	i = 0;
-	zn = 1;
 	res = 0;
-	while (a[i])
+	if (p->flag[2])
 	{
-		if ((a[i] >= 9 && a[i] <= 13) || a[i] == ' ')
-		{
-			i++;
-			continue;
-		}
-		if (a[i] == '-')
-			zn = -1;
-		if (a[i] == '+' || a[i] == '-')
-			i++;
-		while (a[i] >= '0' && a[i] <= '9')
-			res = res * 10 + zn * (a[i++] - '0');
-		return (res);
-	}
-	return (0);
-}
-char	*ft_strnstr(const char *s1, const char *s2, size_t n)
-{
-	size_t i;
-	size_t j;
-
-	i = 0;
-	j = 0;
-	if (n == 0)
-		return (0);
-	while (s1[i])
-	{
-		j = 0;
-		while (s2[j] && j + i < n && s1[i + j])
-		{
-			if (s1[i + j] == s2[j])
-				++j;
+		while (p->width - res - len > 0)
+			if (p->precision > -1)
+				res += write(1, "0", 1);
 			else
-				break ;
-		}
-		if (j == (size_t)strlen((char*)s2))
-			return (&((char*)s1)[i]);
-		i++;
+				res += write(1, "0", 1);
+		res += write(1, str, len);
 	}
-	return (0);
-}
-char	*ft_strsub(char const *s, unsigned int start, size_t len)
-{
-	char *q;
-
-	q = (char*)malloc(len + 1);
-		if (!q)
-			return(0);
-	q[len] = '\0';
-	if (!s)
+	else
 	{
-		free(q);
-		return (0);
+		while (p->width - res - len)
+			res += write(1, " ", 1);
+		res += write(1, str, len);
 	}
-	q = strncpy(q, &(s[start]), len);
-	return (q);
+	return (res);
 }
